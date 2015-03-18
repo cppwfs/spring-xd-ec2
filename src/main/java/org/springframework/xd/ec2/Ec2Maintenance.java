@@ -47,19 +47,19 @@ public class Ec2Maintenance {
 
 	public final static String HIGHLIGHT = "************************************************************************";
 
-	private static final String AWS_ACCESS_KEY = "aws-access-key";
+	private static final String AWS_ACCESS_KEY = "aws.access.key";
 
-	private static final String AWS_SECRET_KEY = "aws-secret-key";
+	private static final String AWS_SECRET_KEY = "aws.secret.key";
 
-	private static final String PRIVATE_KEY_FILE = "private-key-file";
+	private static final String PRIVATE_KEY_FILE = "private.key.file";
 
 	@Autowired
 	private Banner banner;
 
-	public static final String[] REQUIRED_ENTRIES = { "cluster-name",
-		"aws-access-key", "aws-secret-key", "private-key-file",
-		"user_name", "region", "machine-size", "security-group",
-		"public-key-name", "ami", "multi-node" };
+	public static final String[] REQUIRED_ENTRIES = { "cluster.name",
+		"aws.access.key", "aws.secret.key", "private.key.file",
+		"user.name", "region", "machine.size", "security.group",
+		"public.key.name", "ami", "multi.node" };
 
 	/**
 	 * Terminates an XD instance(s) with a specific name.  
