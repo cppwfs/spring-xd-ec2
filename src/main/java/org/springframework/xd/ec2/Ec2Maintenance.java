@@ -17,6 +17,7 @@
 package org.springframework.xd.ec2;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -53,6 +54,8 @@ public class Ec2Maintenance {
 
 	private static final String PRIVATE_KEY_FILE = "private.key.file";
 
+	private static final String CLUSTER_NAME = "cluster.name";
+
 	@Autowired
 	private Banner banner;
 
@@ -81,6 +84,7 @@ public class Ec2Maintenance {
 			props.setProperty(AWS_ACCESS_KEY, getAWSProperty(props, AWS_ACCESS_KEY));
 			props.setProperty(AWS_SECRET_KEY, getAWSProperty(props, AWS_SECRET_KEY));
 			props.setProperty(PRIVATE_KEY_FILE, getAWSProperty(props, PRIVATE_KEY_FILE));
+			props.setProperty(CLUSTER_NAME, getAWSProperty(props, CLUSTER_NAME));
 
 
 		}
@@ -93,13 +97,15 @@ public class Ec2Maintenance {
 	}
 
 	private String getAWSProperty(Properties props, String propKey) {
+		Map<String,String> systemProperties = System.getenv();
+		String systemPropKey = propKey.replace('.', '_');
+		if (systemProperties.containsKey(systemPropKey) && (
+				!systemProperties.get(systemPropKey).equals("") ||
+						systemProperties.get(systemPropKey) != null)) {
+			return systemProperties.get(systemPropKey);
+		}
 		if (props.containsKey(propKey) && !props.getProperty(propKey).equals("")) {
 			return props.getProperty(propKey);
-		}
-		Properties systemProperties = System.getProperties();
-
-		if (systemProperties.containsKey(propKey) && !systemProperties.getProperty(propKey).equals("")) {
-			return systemProperties.getProperty(propKey);
 		}
 		return "";
 	}
